@@ -1,14 +1,19 @@
 {
-    "pages": [
-        "pages/index/index"
-    ],
-    "subPackages": [],
-    "window": {
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "uni-app",
-        "navigationBarBackgroundColor": "#F8F8F8",
-        "backgroundColor": "#F8F8F8"
-    },
-    "usingComponents": {},
-    "sitemapLocation": "sitemap.json"
+  "pages": [
+    "pages/index/index",
+    "pages/Home/Home",
+    "pages/Cate/Cate",
+    "pages/Cart/Cart",
+    "pages/My/My",
+    "pages/Cart/Cart",
+    "pages/My/My"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {}
 }
