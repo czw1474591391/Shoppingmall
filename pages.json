@@ -1,7 +1,5 @@
 {
   "pages": [
-    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-
     {
       "path": "pages/Home/Home",
       "style": {
@@ -29,20 +27,17 @@
         "navigationBarTitleText": "",
         "enablePullDownRefresh": false
       }
-    },
+    }
+  ],
+  "subPackages": [
     {
-      "path": "pages/Cart/Cart",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/My/My",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
+      "root": "subpkg",
+      "pages": [
+        {
+          "path": "goods_detail/goods_detail",
+          "style": {}
+        }
+      ]
     }
   ],
   "globalStyle": {
@@ -55,25 +50,25 @@
     "selectedColor": "#C00000",
     "list": [
       {
-        "pagePath": "pages/home/home",
+        "pagePath": "pages/Home/Home",
         "text": "首页",
         "iconPath": "static/tab_icons/home.png",
         "selectedIconPath": "static/tab_icons/home-active.png"
       },
       {
-        "pagePath": "pages/cate/cate",
+        "pagePath": "pages/Cate/Cate",
         "text": "分类",
         "iconPath": "static/tab_icons/cate.png",
         "selectedIconPath": "static/tab_icons/cate-active.png"
       },
       {
-        "pagePath": "pages/cart/cart",
+        "pagePath": "pages/Cart/Cart",
         "text": "购物车",
         "iconPath": "static/tab_icons/cart.png",
         "selectedIconPath": "static/tab_icons/cart-active.png"
       },
       {
-        "pagePath": "pages/my/my",
+        "pagePath": "pages/My/My",
         "text": "我的",
         "iconPath": "static/tab_icons/my.png",
         "selectedIconPath": "static/tab_icons/my-active.png"
