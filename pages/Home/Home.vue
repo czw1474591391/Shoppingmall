@@ -25,20 +25,22 @@
         <image :src="item.floor_title.image_src" class="floor-title" />
         <!-- 楼层图片区域 -->
         <view class="floor-img-box">
-          <view class="left-img-box">
+          <navigator class="left-img-box" :url="item.product_list[0].url">
             <image
               :src="item.product_list[0].image_src"
               :style="{ width: item.product_list[0].image_width + 'rpx' }"
               mode="widthFix"
             />
             <!-- 图片裁剪、缩放的模式,widthFix	宽度不变，高度自动变化，保持原图宽高比不变 -->
-          </view>
+          </navigator>
           <view class="right-img-box">
-            <view
+            <!-- navigator组件绑定url跳转路径 -->
+            <navigator
               class="right-img-item"
               v-for="(item2, i2) in item.product_list"
               :key="i2"
               v-if="i2 !== 0"
+              :url="item2.url"
             >
               <!-- 这里v-if i2！==0是因为前面的左侧图片已经渲染，剔除掉0下标，避免左侧图片渲染多次 -->
               <image
@@ -46,7 +48,7 @@
                 mode="widthFix"
                 :style="{ width: item2.image_width + 'rpx' }"
               ></image>
-            </view>
+            </navigator>
           </view>
         </view>
       </view>
@@ -83,6 +85,12 @@ export default {
       const { data: res } = await uni.$http.get("/api/public/v1/home/floordata");
       //请求失败调用全局封装的提示框
       if (res.meta.status !== 200) return uni.$showMsg();
+
+      res.message.forEach((floor) => {
+        floor.product_list.forEach((prod) => {
+          prod.url = "/subpkg/goods_list/goods_list?" + prod.navigator_url.split("?")[1];
+        });
+      });
       this.floorList = res.message;
     },
     // 跳转到分类tabbar
