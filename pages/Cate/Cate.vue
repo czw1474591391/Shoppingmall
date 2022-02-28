@@ -1,5 +1,8 @@
 <template>
   <view>
+    <view class="search-box">
+      <my-search @click="gotoSearch"></my-search>
+    </view>
     <view class="scroll-view-container">
       <!-- 左侧的滚动视图区域 -->
       <scroll-view class="left-scroll-view" scroll-y :style="{ height: wh + 'px' }">
@@ -51,38 +54,49 @@ export default {
     };
   },
   methods: {
+    // 请求导航分类数据
     async getCateList() {
       const { data: res } = await uni.$http.get("/api/public/v1/categories");
-      console.log(res);
       if (res.meta.status !== 200) return uni.$showMsg();
       this.cateList = res.message; //转存数据
       //为二级分类赋值
       this.cateLevel2 = res.message[0].children;
     },
+    //左侧导航选中项发生改变时
     activeChanged(i) {
-      //左侧选中项发生改变时
       this.active = i;
       this.cateLevel2 = this.cateList[i].children;
-
       // 让scrollTop的值在0与1之间切换(解决切换其他选项时候不能置顶的bug)
       this.scrollTop = this.scrollTop ? 0 : 1;
     },
+    //携带参数跳转到商品列表页面
     gotoGoodsList(item3) {
       uni.navigateTo({
         url: "/subpkg/goods_list/goods_list?cid=" + item3.cat_id,
       });
     },
+    // 跳转到分包中的搜索页面
+    gotoSearch() {
+      uni.navigateTo({ url: "/subpkg/search/search" });
+    },
   },
   onLoad(options) {
     //获取当前系统动态高度
     const sysInfo = uni.getSystemInfoSync();
-    this.wh = sysInfo.windowHeight;
+    this.wh = sysInfo.windowHeight - 50;
+    // 由于自定义的 my-search 组件高度为 50px，因此，需要重新计算分类页面窗口的可用高度：
     this.getCateList();
   },
 };
 </script>
 
 <style lang="scss">
+.search-box {
+  //设置定位效果为"吸顶"
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
 .scroll-view-container {
   display: flex;
 

@@ -1,5 +1,8 @@
 <template>
   <view>
+    <view class="search-box">
+      <my-search @click="gotoSearch"></my-search>
+    </view>
     <!-- 轮播图区域 -->
     <swiper indicator-dots autoplay circular>
       <!-- 渲染轮播图的item项 -->
@@ -99,6 +102,10 @@ export default {
         uni.switchTab({ url: "/pages/Cate/Cate" });
       }
     },
+    // 跳转到分包中的搜索页面
+    gotoSearch() {
+      uni.navigateTo({ url: "/subpkg/search/search" });
+    },
   },
   onLoad() {
     this.getSwiperList();
@@ -109,6 +116,12 @@ export default {
 </script>
 
 <style lang="scss">
+.search-box {
+  //设置定位效果为"吸顶"
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
 swiper {
   height: 330rpx;
   .swiper-item,
