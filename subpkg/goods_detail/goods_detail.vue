@@ -7,9 +7,7 @@ export default {
   data() {
     return {};
   },
-  onLoad(options) {
-    console.log(options);
-  },
+  onLoad(options) {},
 };
 </script>
 
