@@ -6,7 +6,7 @@ $http.baseUrl = "https://api-hmugo-web.itheima.net";
 //请求拦截器
 $http.beforeRequest = (options) => {
   uni.showLoading({
-    title: "加载中",
+    title: "数据请求中",
   });
 };
 //响应拦截器
