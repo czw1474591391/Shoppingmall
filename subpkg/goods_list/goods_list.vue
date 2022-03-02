@@ -1,9 +1,9 @@
 <template>
   <div class="goods-list">
-    <block v-for="(item, i) in goodsList" :key="i" @click="gotoDetail(item)">
+    <view v-for="(item, i) in goodsList" :key="i" @click="gotoDetail(item)">
       <!-- 封装自定义goods组件  动态渲染商品列表的值 -->
       <my-goods :item="item"></my-goods>
-    </block>
+    </view>
   </div>
 </template>
 
