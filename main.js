@@ -1,4 +1,5 @@
 import App from "./App";
+import store from "./store/store";
 import { $http } from "@escook/request-miniprogram";
 uni.$http = $http;
 //配置请求根路径
@@ -31,6 +32,7 @@ Vue.config.productionTip = false;
 App.mpType = "app";
 const app = new Vue({
   ...App,
+  store,
 });
 app.$mount();
 // #endif
