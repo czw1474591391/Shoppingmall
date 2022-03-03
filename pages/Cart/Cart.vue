@@ -4,15 +4,26 @@
       <uni-icons type="shop" size="18" />
       <text class="cart-totle-text">购物车</text>
     </view>
-    <block v-for="(item, index) in cart" :key="{ index }">
-      <my-goods
-        :item="item"
-        showNum
-        showRadio
-        @radio-change="radioChangeHandler"
-        @num-change="numberChangeHandler"
-      ></my-goods>
-    </block>
+    <!-- 商品列表区域 -->
+    <uni-swiper-action>
+      <!-- uni-swiper-action最外层包裹的容器 -->
+      <block v-for="(item, index) in cart" :key="index">
+        <!-- uni-swiper-action-item可以为其子节点提供滑动操作 -->
+        <uni-swipe-action-item
+          :right-options="options"
+          name="index"
+          @click="swipeActionClickHandler(item)"
+        >
+          <my-goods
+            :item="item"
+            showNum
+            showRadio
+            @radio-change="radioChangeHandler"
+            @num-change="numberChangeHandler"
+          ></my-goods>
+        </uni-swipe-action-item>
+      </block>
+    </uni-swiper-action>
   </view>
 </template>
 
@@ -27,10 +38,19 @@ export default {
     ...mapState("m_cart", ["cart"]),
   },
   data() {
-    return {};
+    return {
+      options: [
+        {
+          text: "删除", // 显示的文本内容
+          style: {
+            backgroundColor: "#C00000", // 按钮的背景颜色
+          },
+        },
+      ],
+    };
   },
   methods: {
-    ...mapMutations("m_cart", ["updataGoodsState", "updateGoodsCount"]),
+    ...mapMutations("m_cart", ["updataGoodsState", "updateGoodsCount", "removeGoodsById"]),
     //购物车单选框事件
     radioChangeHandler(e) {
       this.updataGoodsState(e);
@@ -38,6 +58,10 @@ export default {
     //numbox数字组件更改事件
     numberChangeHandler(e) {
       this.updateGoodsCount(e);
+    },
+    //右滑删除操作
+    swipeActionClickHandler(e) {
+      this.removeGoodsById(e);
     },
   },
 };
