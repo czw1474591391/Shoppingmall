@@ -16,6 +16,22 @@ export default {
       }
       this.commit("m_cart/saveToStorage");
     },
+    //更新购物车商品的勾选状态
+    updataGoodsState(state, goods) {
+      const findResult = state.cart.find((x) => x.goods_id === goods.goods_id);
+      if (findResult) {
+        findResult.goods_state = goods.goods_state;
+        this.commit("m_cart/saveToStorage");
+      }
+    },
+    //更新购物车中商品的数量
+    updateGoodsCount(state, goods) {
+      const findResult = state.cart.find((x) => x.goods_id === goods.goods_id);
+      if (findResult) {
+        findResult.goods_count = goods.goods_count;
+        this.commit("m_cart/saveToStorage");
+      }
+    },
     //将购物车中的数据持久化存储到本地
     saveToStorage(state) {
       uni.setStorageSync("cart", JSON.stringify(state.cart));
