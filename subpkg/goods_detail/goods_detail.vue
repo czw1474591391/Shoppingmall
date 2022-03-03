@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -68,7 +69,32 @@ export default {
       ],
     };
   },
+  watch: {
+    //监听total值的变化，通过第一个形参得到变化后的新值
+    total: {
+      handler(newVal) {
+        //找到购物车按钮的配置对象
+        const findResult = this.options.find((x) => x.text === "购物车");
+        //动态为购物车按钮的info属性赋值
+        if (findResult) findResult.info = newVal;
+      },
+      // immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用
+      immediate: true,
+    },
+    // total(newVal) {},
+  },
+  computed: {
+    //调用mapState方法，把m_cart模块中的cart数组映射到当前页面
+    //...mapState('模块的名称',['要映射的数据名称])
+    // 注意：今后无论映射 mutations 方法，还是 getters 属性，
+    // 还是 state 中的数据，都需要指定模块的名称，才能进行映射。
+    ...mapState("m_cart", ["cart"]),
+    ...mapGetters("m_cart", ["total"]),
+  },
   methods: {
+    //把m_cart模块中的addToCart方法映射到当前页面
+    ...mapMutations("m_cart", ["addToCart"]),
+    //goods—nav组件左侧按钮点击事件
     onClick(e) {
       if (e.content.text === "购物车") {
         uni.switchTab({
@@ -76,7 +102,21 @@ export default {
         });
       }
     },
-    buttonClick(e) {},
+    //goods—nav组件右侧按钮点击事件
+    buttonClick(e) {
+      if (e.content.text === "加入购物车") {
+        // 2. 组织一个商品的信息对象
+        const goods = {
+          goods_id: this.goods_info.goods_id, // 商品的Id
+          goods_name: this.goods_info.goods_name, // 商品的名称
+          goods_price: this.goods_info.goods_price, // 商品的价格
+          goods_count: 1, // 商品的数量
+          goods_small_logo: this.goods_info.goods_small_logo, // 商品的图片
+          goods_state: true, // 商品的勾选状态
+        };
+        this.addToCart(goods);
+      }
+    },
     //请求商品详情方法
     async getGoodsDetail(goods_id) {
       const { data: res } = await uni.$http.get("/api/public/v1/goods/detail?goods_id", {
