@@ -32,6 +32,11 @@ export default {
         this.commit("m_cart/saveToStorage");
       }
     },
+    //删除匹配id的商品对象
+    removeGoodsById(state, goods_id) {
+      state.cart = state.cart.filter((x) => x.goods_id !== x.goods_id);
+      this.commit("m_cart/saveToStorage");
+    },
     //将购物车中的数据持久化存储到本地
     saveToStorage(state) {
       uni.setStorageSync("cart", JSON.stringify(state.cart));
