@@ -18,7 +18,7 @@
         <!-- 商品数量 -->
         <uni-number-box
           :min="1"
-          :value="goods.goods_count"
+          :value="item.goods_count"
           @change="numChangeHandler"
           v-if="showNum"
         ></uni-number-box>
@@ -92,6 +92,8 @@ export default {
 
 <style lang="scss">
 .goods-item {
+  width: 750rpx;
+  box-sizing: border-box;
   display: flex;
   padding: 10px 5px;
   border-bottom: 1px solid #f0f0f0;
