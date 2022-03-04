@@ -7,7 +7,7 @@ import badgeMix from "@/mixins/tabbar-badge.js";
 //导入封装好的mixin模块
 export default {
   //混入当前页面中使用
-  //   mixins: [badgeMix],
+  mixins: [badgeMix],
   data() {
     return {};
   },
