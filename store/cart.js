@@ -24,6 +24,11 @@ export default {
         this.commit("m_cart/saveToStorage");
       }
     },
+    //更新所有商品的勾选状态
+    updataAllGoodsState(state, newState) {
+      state.cart.forEach((x) => (x.goods_state = newState));
+      this.commit("m_cart/saveToStorage");
+    },
     //更新购物车中商品的数量
     updateGoodsCount(state, goods) {
       const findResult = state.cart.find((x) => x.goods_id === goods.goods_id);
@@ -46,13 +51,29 @@ export default {
   getters: {
     //统计购物车中商品总数量
     total(state) {
-      console.log(1);
       let c = 0;
       //统计所有的商品数量  累加返回
       state.cart.forEach((goods) => {
         c += goods.goods_count;
       });
       return c;
+    },
+    // 勾选的商品的总数量
+    checkedCount(state) {
+      // 先使用 filter 方法，从购物车中过滤器已勾选的商品
+      // 再使用 reduce 方法，将已勾选的商品总数量进行累加
+      // reduce() 的返回值就是已勾选的商品的总数量
+      return state.cart
+        .filter((x) => x.goods_state)
+        .reduce((total, item) => (total += item.goods_count), 0);
+    },
+    checkedGoodsAmount(state) {
+      //使用reduce方法 将已勾选的商品数量*单价之后，进行累加（total是第二个参数0）
+      //toFixed方法是保留两位小数
+      return state.cart
+        .filter((x) => x.goods_state)
+        .reduce((total, item) => (total += item.goods_price * item.goods_count), 0)
+        .toFixed(2);
     },
   },
 };
