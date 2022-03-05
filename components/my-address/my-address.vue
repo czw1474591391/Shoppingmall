@@ -56,7 +56,6 @@ export default {
       // 2. 用户成功的选择了收货地址
       if (err === null && succ.errMsg === "chooseAddress:ok") {
         // 为 data 里面的收货地址对象赋值
-        console.log(succ);
         this.updataAddress(succ);
       }
       // 如果在选择收货地址的时候，用户点击了取消授权，则需要进行特殊的处理，否则用户将无法再次选择收货地址！
