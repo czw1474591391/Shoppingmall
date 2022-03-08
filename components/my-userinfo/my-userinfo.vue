@@ -77,9 +77,9 @@ export default {
   data: () => ({}),
   computed: {
     ...mapState("m_user", ["userinfo"]),
-    ...mapMutations("m_user", ["updataAddress", "updataUserInfo", "updataToken"]),
   },
   methods: {
+    ...mapMutations("m_user", ["updataAddress", "updataUserInfo", "updataToken"]),
     //用户退出登录
     async logout() {
       const [err, succ] = await uni
@@ -88,11 +88,11 @@ export default {
           title: "提示",
         })
         .catch((err) => err);
-      //当用户确认退出的操作，清空存储中的用户信息以及token
+      // 当用户确认退出的操作，清空存储中的用户信息以及token
       if (succ && succ.confirm) {
-        this.updataAddress({});
         this.updataUserInfo({});
         this.updataToken("");
+        this.updataAddress({});
       }
     },
   },
