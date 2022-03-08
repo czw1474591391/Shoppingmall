@@ -18,7 +18,12 @@
 import { mapGetters, mapMutations, mapState } from "vuex";
 export default {
   props: {},
-  data: () => ({}),
+  data: () => ({
+    // 倒计时的秒数
+    seconds: 3,
+    // 定时器的 Id
+    timer: null,
+  }),
   computed: {
     ...mapGetters("m_cart", ["checkedCount", "total", "checkedGoodsAmount"]),
     //映射收货地址
@@ -32,6 +37,7 @@ export default {
   },
   methods: {
     ...mapMutations("m_cart", ["updataAllGoodsState"]),
+    ...mapMutations("m_user", ["updataRedirectInfo"]),
     //修改购物车所有商品选中状态
     changeAllState() {
       this.updataAllGoodsState(!this.isFullCheck);
@@ -43,7 +49,39 @@ export default {
       //判断用户是否输入地址
       if (!this.addstr) return uni.$showMsg("请选择收货地址！");
       //判断用户是否登录
-      if (!this.token) return uni.$showMsg("请先登录！");
+      if (!this.token) return this.delayNavigate();
+    },
+
+    delayNavigate() {
+      //展示提示信息
+      this.showTips(this.seconds);
+      this.timer = setInterval(() => {
+        this.seconds--;
+        //秒数限制并跳转到登录页面
+        if (this.seconds <= 0) {
+          clearInterval(this.timer);
+          uni.switchTab({
+            url: "/pages/My/My",
+            success: (success) => {
+              //成功跳转登录页之后记录跳转的方式以及页面
+              this.updataRedirectInfo({
+                openType: "switchTab",
+                from: "/pages/Cart/Cart",
+              });
+            },
+          });
+          return;
+        }
+
+        this.showTips(this.seconds);
+      }, 1000);
+    },
+    showTips(n) {
+      uni.showToast({
+        icon: "none",
+        title: "请登录后再结算！" + n + "秒后自动跳转到登录页",
+        duration: 1500,
+      });
     },
   },
   watch: {},
