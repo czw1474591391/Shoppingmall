@@ -7,6 +7,8 @@ export default {
     token: uni.getStorageSync("token") || "",
     //用户基本信息
     userinfo: JSON.parse(uni.getStorageSync("userinfo") || "{}"),
+    //重定向得object对象
+    redirectInfo: null,
   }),
   mutations: {
     //更新收货地址
@@ -16,7 +18,7 @@ export default {
       this.commit("m_user/saveAddressToStorage");
     },
     //将地址持久化存储到本地
-    saveAddressToStorage() {
+    saveAddressToStorage(state) {
       uni.setStorageSync("address", JSON.stringify(state.address));
     },
     //更新用户基本信息
@@ -36,6 +38,10 @@ export default {
     //将token字符串保存到本地存储中
     saveTokenStorage(state) {
       uni.setStorageSync("token", state.token);
+    },
+    //更新重定向的信息对象
+    updataRedirectInfo(state, info) {
+      state.redirectInfo = info;
     },
   },
   // 数据包装器
