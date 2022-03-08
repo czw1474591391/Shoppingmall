@@ -7,34 +7,22 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   props: {},
   data: () => ({}),
-  computed: {},
+  computed: {
+    ...mapState("m_user", ["redirectInfo"]),
+  },
   methods: {
-    ...mapMutations("m_user", ["updataUserInfo", "updataToken"]),
+    ...mapMutations("m_user", ["updataUserInfo", "updataToken", "updataRedirectInfo"]),
     //获取微信用户的基本信息
-    // getUserInfo(e) {
-    //   // 获取微信用户的基本信息
-
-    //   //判断获取用户信息是否成功
-    //   if (e.detail.errMsg === "getUserInfo:ok") {
-    //     this.updataUserInfo(e.detail.userInfo);
-    //     //获取登录后的token字符串
-    //     this.getToken(e.detail);
-    //   } else {
-    //     return uni.$showMsg("您取消了登录授权！");
-    //   }
-    // },
     getUserProfile(e) {
-      console.log(e);
       uni.getUserProfile({
         desc: "用于完善个人资料", // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
         success: (res) => {
           // 3. 将用户的基本信息存储到 vuex 中
-          console.log(res);
-          // this.updataUserInfo(res.userInfo);
+          this.updataUserInfo(res.userInfo);
 
           // 获取登录成功后的 Token 字符串
           this.getToken(res);
@@ -63,6 +51,23 @@ export default {
       this.updataToken(
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIzLCJpYXQiOjE1NjQ3MzAwNzksImV4cCI6MTAwMTU2NDczMDA3OH0.YPt-XeLnjV-_1ITaXGY2FhxmCe4NvXuRnRB8OMCfnPo"
       );
+      // //登录成功之后跳转到购物车页面
+      this.navigateBack();
+    },
+    //登录之后返回原页面
+    navigateBack() {
+      // redirectInfo 不为 null，并且导航方式为 switchTab
+      console.log(this.redirectInfo);
+      if (this.redirectInfo && this.redirectInfo.openType === "switchTab") {
+        //重新导航到原页面
+        uni.switchTab({
+          url: this.redirectInfo.from,
+          //无论成功或者失败都将user模块中的重定向对象清空
+          complete: () => {
+            this.updataRedirectInfo(null);
+          },
+        });
+      }
     },
   },
   watch: {},
