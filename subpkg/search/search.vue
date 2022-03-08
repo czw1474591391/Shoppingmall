@@ -80,7 +80,6 @@ export default {
     },
     //携带参数跳转商品列表页面
     gotoGoodsList(kw) {
-      console.log(kw);
       uni.navigateTo({
         url: "/subpkg/goods_list/goods_list?query=" + kw,
       });
