@@ -9,6 +9,13 @@ $http.beforeRequest = (options) => {
   uni.showLoading({
     title: "数据请求中",
   });
+  // 判断请求是否为有权限的API接口;
+  if (options.url.indexOf("wxlogin") !== -1) {
+    //为为请求头添加身份认证字段（携带token）
+    options.header = {
+      Authorization: store.state.m_user.token,
+    };
+  }
 };
 //响应拦截器
 $http.afterRequest = () => {
